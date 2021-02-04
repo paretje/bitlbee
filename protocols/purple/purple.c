@@ -301,6 +301,15 @@ static void purple_init(account_t *acc)
 		s->flags |= SET_HIDDEN;
 	}
 
+	if (g_strcmp0(prpl->info->id, "prpl-jabber") == 0) {
+		log_message(LOGLVL_INFO, "try to find lurch for OMEMO support on jabber");
+		PurplePlugin *lurch_prpl = purple_plugins_find_with_id("core-riba-lurch");
+		if (lurch_prpl) {
+			log_message(LOGLVL_INFO, "load lurch plugin");
+			purple_plugin_load(lurch_prpl);
+		}
+	}
+
 	/* Go through all away states to figure out if away/status messages
 	   are possible. */
 	pa = purple_account_new(acc->user, prpl_id);
