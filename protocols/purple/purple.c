@@ -306,7 +306,27 @@ static void purple_init(account_t *acc)
 		PurplePlugin *lurch_prpl = purple_plugins_find_with_id("core-riba-lurch");
 		if (lurch_prpl) {
 			log_message(LOGLVL_INFO, "load lurch plugin");
-			purple_plugin_load(lurch_prpl);
+			if (!purple_plugin_load(lurch_prpl)) {
+				log_message(LOGLVL_ERROR, "failed to load lurch");
+			}
+		}
+
+		log_message(LOGLVL_INFO, "try to find plugin for carbons support on jabber");
+		PurplePlugin *carbons_prpl = purple_plugins_find_with_id("core-riba-carbons");
+		if (carbons_prpl) {
+			log_message(LOGLVL_INFO, "load carbons plugin");
+			if (!purple_plugin_load(carbons_prpl)) {
+				log_message(LOGLVL_ERROR, "failed to load carbons plugin");
+			}
+		}
+
+		log_message(LOGLVL_INFO, "try to find plugin for http uploads support on jabber");
+		PurplePlugin *uploads_prpl = purple_plugins_find_with_id("xep-http-file-upload");
+		if (uploads_prpl) {
+			log_message(LOGLVL_INFO, "load http uploads");
+			if (!purple_plugin_load(uploads_prpl)) {
+				log_message(LOGLVL_ERROR, "failed to load http uploads plugin");
+			}
 		}
 	}
 
